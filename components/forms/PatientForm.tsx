@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 import { UserFormValidation } from "@/lib/validation";
-
+import { createUser } from "@/lib/actions/patient.actions";
 import "react-phone-number-input/style.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
@@ -36,7 +36,11 @@ export const PatientForm = () => {
         phone: values.phone,
       };
 
-      
+      const newUser = await createUser(user);
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
